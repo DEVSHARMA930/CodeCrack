@@ -16,7 +16,8 @@ function requireAuth(req, res, next) {
     const payload = verifyAccessToken(token);
     req.auth = {
       userId: payload.sub,
-      email: payload.email
+      email: payload.email,
+      role: payload.role || "student"
     };
     return next();
   } catch (error) {
@@ -26,6 +27,16 @@ function requireAuth(req, res, next) {
   }
 }
 
+function requireAdmin(req, res, next) {
+  if (!req.auth || req.auth.role !== "admin") {
+    return res.status(403).json({
+      error: "Admin access required"
+    });
+  }
+  return next();
+}
+
 module.exports = {
-  requireAuth
+  requireAuth,
+  requireAdmin
 };

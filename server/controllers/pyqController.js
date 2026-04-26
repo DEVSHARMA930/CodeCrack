@@ -1,6 +1,10 @@
 const PyqPaper = require("../models/PyqPaper");
 const { uploadPdfToCloudinary } = require("../services/cloudinaryService");
 
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function normalizeTags(tags) {
   if (Array.isArray(tags)) {
     return tags.map((tag) => String(tag).trim()).filter(Boolean).slice(0, 12);
@@ -25,7 +29,7 @@ function buildPyqFilter(query) {
   const yearValue = Number(query.year);
 
   if (subject) {
-    filter.subject = { $regex: subject, $options: "i" };
+    filter.subject = { $regex: escapeRegex(subject), $options: "i" };
   }
 
   if (Number.isFinite(semesterValue) && semesterValue > 0) {
@@ -37,11 +41,12 @@ function buildPyqFilter(query) {
   }
 
   if (q) {
+    const escaped = escapeRegex(q);
     filter.$or = [
-      { title: { $regex: q, $options: "i" } },
-      { subject: { $regex: q, $options: "i" } },
-      { description: { $regex: q, $options: "i" } },
-      { tags: { $regex: q, $options: "i" } }
+      { title: { $regex: escaped, $options: "i" } },
+      { subject: { $regex: escaped, $options: "i" } },
+      { description: { $regex: escaped, $options: "i" } },
+      { tags: { $regex: escaped, $options: "i" } }
     ];
   }
 

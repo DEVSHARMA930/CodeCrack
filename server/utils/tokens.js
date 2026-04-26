@@ -7,6 +7,7 @@ function signAccessToken(user) {
     {
       sub: user._id.toString(),
       email: user.email,
+      role: user.role || "student",
       type: "access"
     },
     env.jwtAccessSecret,

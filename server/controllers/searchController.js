@@ -9,7 +9,7 @@ const PAGE_INDEX = [
   { title: "About", href: "/about", keywords: "mission team" },
   { title: "Subscription", href: "/subscription", keywords: "newsletter updates" },
   { title: "Login", href: "/login", keywords: "auth account" },
-  { title: "Terms of Us", href: "/terms", keywords: "legal" },
+  { title: "Terms of Use", href: "/terms", keywords: "legal" },
   { title: "Contact Us", href: "/contact", keywords: "email contact" },
   { title: "Cookies", href: "/cookies", keywords: "cookie policy" },
   { title: "Privacy Policy", href: "/privacy", keywords: "privacy" },

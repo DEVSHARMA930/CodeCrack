@@ -30,27 +30,47 @@ async function executeCode(req, res, next) {
       stdin
     });
 
-    const compile = result.compile || {};
-    const run = result.run || {};
+    const compile = result.compile || null;
+    const run = result.run || null;
 
-    const output = [compile.output, run.output].filter(Boolean).join("\n").trim();
+    // If there's no run result at all, something went wrong on the executor side
+    if (!run) {
+      return res.status(502).json({
+        error: "Execution service did not return a result. Please try again."
+      });
+    }
+
+    const compileSucceeded = !compile || (compile.code ?? 0) === 0;
+    const runSucceeded = (run.code ?? 0) === 0 && !run.signal;
+
+    // Build a single output string the UI can display directly
+    const parts = [];
+    if (compile && compile.output) {
+      parts.push(compile.output.trim());
+    }
+    if (run.output) {
+      parts.push(run.output.trim());
+    }
+    const output = parts.join("\n").trim();
 
     return res.json({
-      success: (compile.code || 0) === 0 && (run.code || 0) === 0,
+      success: compileSucceeded && runSucceeded,
       language,
       output,
-      compile: {
-        code: compile.code,
-        stdout: compile.stdout || "",
-        stderr: compile.stderr || "",
-        output: compile.output || ""
-      },
+      compile: compile
+        ? {
+            code: compile.code ?? null,
+            stdout: compile.stdout || "",
+            stderr: compile.stderr || "",
+            output: compile.output || ""
+          }
+        : null,
       run: {
-        code: run.code,
+        code: run.code ?? null,
         stdout: run.stdout || "",
         stderr: run.stderr || "",
         output: run.output || "",
-        signal: run.signal || ""
+        signal: run.signal || null
       }
     });
   } catch (error) {

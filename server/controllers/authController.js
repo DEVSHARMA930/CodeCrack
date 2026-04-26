@@ -13,6 +13,10 @@ function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
 }
 
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 function sanitizeUser(user) {
   return {
     id: user._id,
@@ -53,6 +57,12 @@ async function register(req, res, next) {
     if (!email || !password) {
       return res.status(400).json({
         error: "Email and password are required"
+      });
+    }
+
+    if (!isValidEmail(email)) {
+      return res.status(400).json({
+        error: "Please enter a valid email address"
       });
     }
 
