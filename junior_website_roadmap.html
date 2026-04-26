@@ -1,0 +1,193 @@
+
+<style>
+  h2.sr-only { position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0); }
+  .section { margin-bottom: 2rem; }
+  .section-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-tertiary); margin: 0 0 10px; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { font-size: 13px; padding: 5px 12px; border-radius: 20px; font-weight: 400; }
+  .pill-purple { background: #EEEDFE; color: #3C3489; }
+  .pill-teal   { background: #E1F5EE; color: #0F6E56; }
+  .pill-amber  { background: #FAEEDA; color: #854F0B; }
+  .pill-blue   { background: #E6F1FB; color: #185FA5; }
+  .pill-coral  { background: #FAECE7; color: #993C1D; }
+  .pill-gray   { background: #F1EFE8; color: #5F5E5A; }
+  @media (prefers-color-scheme: dark) {
+    .pill-purple { background: #3C3489; color: #CECBF6; }
+    .pill-teal   { background: #085041; color: #9FE1CB; }
+    .pill-amber  { background: #633806; color: #FAC775; }
+    .pill-blue   { background: #0C447C; color: #B5D4F4; }
+    .pill-coral  { background: #712B13; color: #F5C4B3; }
+    .pill-gray   { background: #444441; color: #D3D1C7; }
+  }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .feature-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 14px; background: var(--color-background-secondary); }
+  .feature-card .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; font-size: 14px; }
+  .feature-card .ftitle { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .feature-card .fdesc  { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .page-bar { display: flex; align-items: stretch; gap: 0; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden; }
+  .page-seg { flex: 1; padding: 10px 8px; text-align: center; font-size: 12px; font-weight: 500; border-right: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); }
+  .page-seg:last-child { border-right: none; }
+  .page-seg.active { background: var(--color-background-info); color: var(--color-text-info); }
+  .phase-row { display: flex; gap: 0; align-items: stretch; }
+  .phase-box { flex: 1; padding: 12px 14px; border: 0.5px solid var(--color-border-tertiary); font-size: 13px; line-height: 1.5; color: var(--color-text-secondary); }
+  .phase-box:first-child { border-radius: var(--border-radius-md) 0 0 var(--border-radius-md); }
+  .phase-box:last-child  { border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; }
+  .phase-box + .phase-box { border-left: none; }
+  .phase-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
+  .ph1 { background: #EEEDFE; } .ph1 .phase-label { color: #3C3489; }
+  .ph2 { background: #E1F5EE; } .ph2 .phase-label { color: #0F6E56; }
+  .ph3 { background: #FAEEDA; } .ph3 .phase-label { color: #854F0B; }
+  .ph4 { background: #E6F1FB; } .ph4 .phase-label { color: #185FA5; }
+  @media (prefers-color-scheme: dark) {
+    .ph1 { background: #26215C; } .ph1 .phase-label { color: #CECBF6; } .ph1 { color: #AFA9EC; }
+    .ph2 { background: #04342C; } .ph2 .phase-label { color: #9FE1CB; } .ph2 { color: #5DCAA5; }
+    .ph3 { background: #412402; } .ph3 .phase-label { color: #FAC775; } .ph3 { color: #EF9F27; }
+    .ph4 { background: #042C53; } .ph4 .phase-label { color: #B5D4F4; } .ph4 { color: #85B7EB; }
+  }
+  .design-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .design-item { font-size: 13px; padding: 10px 12px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); color: var(--color-text-secondary); }
+  .design-item strong { display: block; font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.5rem 0; }
+  .top-header { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; }
+  .top-sub { font-size: 14px; color: var(--color-text-secondary); margin: 0 0 1.5rem; }
+</style>
+<h2 class="sr-only">Junior resource website full planning roadmap — pages, features, design, and build phases</h2>
+
+<p style="padding-top:1rem" class="top-header">Junior Resource Website — Full Roadmap</p>
+<p class="top-sub">A complete plan covering pages, features, design direction, and build phases.</p>
+
+<div class="section">
+  <p class="section-title">Pages / Navigation</p>
+  <div class="page-bar">
+    <div class="page-seg active">Home</div>
+    <div class="page-seg">Notes</div>
+    <div class="page-seg">PYQ Papers</div>
+    <div class="page-seg">Code Editor</div>
+    <div class="page-seg">About</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+  <p class="section-title">Core Features</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon" style="background:#EEEDFE;">📄</div>
+      <div class="ftitle">Notes Library</div>
+      <div class="fdesc">Subject-wise notes organized by semester. PDF view & download. Search by topic.</div>
+    </div>
+    <div class="feature-card">
+      <div class="icon" style="background:#E1F5EE;">📋</div>
+      <div class="ftitle">PYQ Papers</div>
+      <div class="fdesc">Year-wise past papers. Filter by subject & year. View inline or download PDF.</div>
+    </div>
+    <div class="feature-card">
+      <div class="icon" style="background:#FAEEDA;">💻</div>
+      <div class="ftitle">Code Editor</div>
+      <div class="fdesc">Run C, C++, Python code in browser. Syntax highlight, output console, file tabs.</div>
+    </div>
+    <div class="feature-card">
+      <div class="icon" style="background:#E6F1FB;">🔍</div>
+      <div class="ftitle">Global Search</div>
+      <div class="fdesc">Search across notes and PYQ papers instantly from any page.</div>
+    </div>
+    <div class="feature-card">
+      <div class="icon" style="background:#FAECE7;">🌙</div>
+      <div class="ftitle">Dark Mode</div>
+      <div class="fdesc">Full dark/light theme toggle — essential for late-night study sessions.</div>
+    </div>
+    <div class="feature-card">
+      <div class="icon" style="background:#F1EFE8;">📱</div>
+      <div class="ftitle">Mobile Friendly</div>
+      <div class="fdesc">Fully responsive — works on phones, tablets, and desktops.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+  <p class="section-title">Code Editor — Detailed Plan</p>
+  <div class="card">
+    <div class="pill-row" style="margin-bottom:12px;">
+      <span class="pill pill-amber">C / C++ / Python support</span>
+      <span class="pill pill-amber">Syntax highlighting</span>
+      <span class="pill pill-amber">Output console</span>
+      <span class="pill pill-amber">Run button</span>
+      <span class="pill pill-amber">Clear & reset</span>
+      <span class="pill pill-amber">Font size control</span>
+      <span class="pill pill-amber">Sample starter code</span>
+    </div>
+    <p style="font-size:13px;color:var(--color-text-secondary);margin:0;line-height:1.6">
+      The editor will feel like a lightweight VS Code / Dev C++ in the browser. A language selector at the top lets users switch between C, C++, and Python. The left panel is the code area (Monaco Editor or CodeMirror), and the right/bottom panel shows the program output. A "Run ▶" button compiles and executes via a sandboxed backend API (e.g. Judge0 or Piston). Error messages and stdout both appear in the console.
+    </p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+  <p class="section-title">Design Direction</p>
+  <div class="design-row">
+    <div class="design-item"><strong>Color scheme</strong>A clean white/off-white base with one accent color (indigo or teal). Dark mode variant.</div>
+    <div class="design-item"><strong>Typography</strong>A readable sans-serif (Inter or Poppins). Large headings, comfortable body size (~15–16px).</div>
+    <div class="design-item"><strong>Layout</strong>Sidebar navigation on desktop, bottom tab bar on mobile. Content area takes up the full width.</div>
+    <div class="design-item"><strong>Cards & surfaces</strong>Subject notes and papers shown as cards in a grid. Subtle borders, no heavy shadows.</div>
+    <div class="design-item"><strong>Hero section</strong>Home page has a welcoming banner with a short tagline, search bar, and quick links to each section.</div>
+    <div class="design-item"><strong>Code editor UI</strong>Dark-themed editor pane always (easier on eyes), even when the rest of the site is in light mode.</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+  <p class="section-title">Tech Stack (recommended)</p>
+  <div class="pill-row" style="margin-bottom:10px;">
+    <span style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);align-self:center;margin-right:4px">Frontend</span>
+    <span class="pill pill-purple">React.js</span>
+    <span class="pill pill-purple">Tailwind CSS</span>
+    <span class="pill pill-purple">React Router</span>
+  </div>
+  <div class="pill-row" style="margin-bottom:10px;">
+    <span style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);align-self:center;margin-right:4px">Code Editor</span>
+    <span class="pill pill-amber">Monaco Editor</span>
+    <span class="pill pill-amber">Judge0 / Piston API</span>
+  </div>
+  <div class="pill-row" style="margin-bottom:10px;">
+    <span style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);align-self:center;margin-right:4px">Backend</span>
+    <span class="pill pill-teal">Node.js + Express</span>
+    <span class="pill pill-teal">Firebase / Supabase</span>
+  </div>
+  <div class="pill-row">
+    <span style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);align-self:center;margin-right:4px">Files</span>
+    <span class="pill pill-blue">Firebase Storage</span>
+    <span class="pill pill-blue">Cloudinary</span>
+    <span class="pill pill-gray">Or static folder (simple)</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+  <p class="section-title">Build Phases</p>
+  <div class="phase-row">
+    <div class="phase-box ph1">
+      <div class="phase-label">Phase 1 — Foundation</div>
+      Set up project structure, routing, navbar, home page, dark mode toggle, and basic layout.
+    </div>
+    <div class="phase-box ph2">
+      <div class="phase-label">Phase 2 — Content</div>
+      Build Notes and PYQ pages. Upload initial files. Add subject filters and PDF viewer.
+    </div>
+    <div class="phase-box ph3">
+      <div class="phase-label">Phase 3 — Editor</div>
+      Integrate Monaco Editor. Connect Judge0/Piston API. Build output console and language switcher.
+    </div>
+    <div class="phase-box ph4">
+      <div class="phase-label">Phase 4 — Polish</div>
+      Add global search, mobile responsiveness, loading states, and deploy to Vercel / Netlify.
+    </div>
+  </div>
+</div>

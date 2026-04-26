@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeCrack | Privacy Policy</title>
+  <link rel="icon" href="/images/cc-3.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="privacy">
+  <div class="app-shell">
+    <header class="site-header" id="siteHeader"></header>
+    <div class="layout">
+      <aside class="site-sidebar" id="siteSidebar"></aside>
+      <main class="page-content legal-content">
+        <h1 class="page-title">Privacy Policy</h1>
+        <p class="page-subtitle">How account, subscription, and session data are handled in this implementation.</p>
+        <h2>Data collected</h2>
+        <p>We store account name, email, hashed password, refresh-session metadata, and subscription emails when provided.</p>
+        <h2>Data use</h2>
+        <p>Data supports authentication, session continuity, and resource update notifications.</p>
+        <h2>Data retention</h2>
+        <p>Expired refresh sessions are automatically cleaned through TTL indexes. Users can request account removal from support.</p>
+      </main>
+    </div>
+    <footer class="site-footer" id="siteFooter"></footer>
+  </div>
+
+  <div class="search-modal" id="searchModal" hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <label class="sr-only" for="searchInput">Search pages</label>
+        <input id="searchInput" type="search" placeholder="Search pages, notes, or tools">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <div class="search-head"><button class="action-btn" type="button" data-close-search>Close</button></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

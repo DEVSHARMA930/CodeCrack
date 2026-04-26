@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeCrack | Code Executor</title>
+  <link rel="icon" href="/images/cc-3.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="code-executor">
+  <div class="app-shell">
+    <header class="site-header" id="siteHeader"></header>
+    <div class="layout">
+      <aside class="site-sidebar" id="siteSidebar"></aside>
+
+      <main class="page-content">
+        <h1 class="page-title">Code Executor</h1>
+        <p class="page-subtitle">Run C, C++, and Python through your own Express proxy connected to the free Piston API.</p>
+
+        <section class="code-layout">
+          <article class="editor-panel">
+            <div class="editor-toolbar">
+              <label for="codeLanguage">Language</label>
+              <select id="codeLanguage">
+                <option value="c">C</option>
+                <option value="cpp">C++</option>
+                <option value="python">Python</option>
+              </select>
+
+              <label for="fontSizeInput">Font size</label>
+              <input id="fontSizeInput" type="range" min="12" max="22" value="14">
+
+              <button id="runCodeBtn" class="action-btn primary" type="button">Run</button>
+              <button id="clearCodeBtn" class="action-btn" type="button">Clear</button>
+              <button id="resetCodeBtn" class="action-btn" type="button">Reset</button>
+            </div>
+
+            <label class="sr-only" for="codeInput">Code input</label>
+            <textarea id="codeInput" class="code-input" spellcheck="false"></textarea>
+            <textarea id="stdinInput" class="stdin-input" placeholder="Optional input for your program"></textarea>
+          </article>
+
+          <article class="output-panel">
+            <div class="editor-toolbar">
+              <strong>Output Console</strong>
+            </div>
+            <pre id="codeOutput" class="output-pane">Run your code to see compile or execution output here.</pre>
+            <div class="editor-toolbar">
+              <span style="color:var(--text-secondary);font-size:0.9rem;">Execution uses sandboxed Piston containers.</span>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <footer class="site-footer" id="siteFooter"></footer>
+  </div>
+
+  <div class="search-modal" id="searchModal" hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <label class="sr-only" for="searchInput">Search pages</label>
+        <input id="searchInput" type="search" placeholder="Search pages, notes, or tools">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <div class="search-head"><button class="action-btn" type="button" data-close-search>Close</button></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCrack | Notes</title>
+    <link rel="icon" href="/images/cc-3.png">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/notes.css">
+</head>
+<body data-page="notes">
+    <div class="app-shell">
+        <header class="site-header" id="siteHeader"></header>
+
+        <div class="layout">
+            <aside class="site-sidebar" id="siteSidebar"></aside>
+
+            <main class="page-content">
+                <h1 class="page-title">Notes Library</h1>
+                <p class="page-subtitle">Semester-wise subject notes with quick tags and one-click PDF access.</p>
+
+                <section class="grid">
+                    <article class="card">
+                        <h3>Semester 1 - Programming Fundamentals</h3>
+                        <p>C basics, loops, arrays, functions, and exam-focused handwritten summaries.</p>
+                        <div class="badge-row">
+                            <span class="badge">C language</span>
+                            <span class="badge">Unit-wise</span>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <h3>Semester 2 - OOP with C++</h3>
+                        <p>Classes, inheritance, polymorphism, STL overview, and common viva questions.</p>
+                        <div class="badge-row">
+                            <span class="badge">C++</span>
+                            <span class="badge">Important questions</span>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <h3>Semester 3 - Data Structures</h3>
+                        <p>Stacks, queues, linked lists, trees, and complexity cheat sheets in one place.</p>
+                        <div class="badge-row">
+                            <span class="badge">DSA</span>
+                            <span class="badge">Time complexity</span>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <h3>Semester 4 - DBMS + OS</h3>
+                        <p>Normalization, SQL basics, scheduling, deadlocks, and memory management snapshots.</p>
+                        <div class="badge-row">
+                            <span class="badge">DBMS</span>
+                            <span class="badge">Operating Systems</span>
+                        </div>
+                    </article>
+                </section>
+
+                <section class="filter-bar" aria-label="Notes filters">
+                    <input id="notesSubjectFilter" type="text" placeholder="Filter by subject">
+                    <input id="notesSemesterFilter" type="number" min="1" max="12" placeholder="Semester">
+                    <input id="notesSearchFilter" type="search" placeholder="Search in notes">
+                    <button id="notesClearFilters" class="action-btn" type="button">Clear</button>
+                </section>
+
+                <section class="table-like" aria-label="Note files" id="notesTable">
+                    <article class="table-row">
+                        <div>
+                            <strong>Loading notes...</strong>
+                            <small>Please wait while data is fetched.</small>
+                        </div>
+                        <span class="action-btn" aria-hidden="true">View PDF</span>
+                        <span class="action-btn" aria-hidden="true">Download</span>
+                    </article>
+                </section>
+            </main>
+        </div>
+
+        <footer class="site-footer" id="siteFooter"></footer>
+    </div>
+
+    <div class="search-modal" id="searchModal" hidden>
+        <div class="search-panel">
+            <div class="search-head">
+                <label class="sr-only" for="searchInput">Search pages</label>
+                <input id="searchInput" type="search" placeholder="Search pages, notes, or tools">
+            </div>
+            <div class="search-results" id="searchResults"></div>
+            <div class="search-head"><button class="action-btn" type="button" data-close-search>Close</button></div>
+        </div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html> 

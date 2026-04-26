@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeCrack | Home</title>
+  <link rel="icon" href="/images/cc-3.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="home">
+  <div class="app-shell">
+    <header class="site-header" id="siteHeader"></header>
+
+    <div class="layout">
+      <aside class="site-sidebar" id="siteSidebar"></aside>
+
+      <main class="page-content">
+        <h1 class="page-title">Junior Resource Website</h1>
+        <p class="page-subtitle">A lightweight student platform with notes, PYQs, and a free browser code runner using the Piston public sandbox.</p>
+
+        <section class="hero-slider panel" id="heroSlider" aria-label="Auto rotating highlights">
+          <div class="hero-track">
+            <article class="hero-slide active">
+              <div class="hero-copy">
+                <span class="hero-chip">Low-data friendly frontend</span>
+                <h2>Fast loading pages for students on weak mobile networks.</h2>
+                <p>Plain HTML, CSS, and Vanilla JS means no heavy client bundle. Content appears quickly even on 3G-style conditions.</p>
+                <div class="hero-actions">
+                  <a class="action-btn primary" href="/notes">Open Notes</a>
+                  <a class="action-btn" href="/pyq">Explore PYQs</a>
+                </div>
+              </div>
+              <div class="hero-media">
+                <div class="metric"><span>Initial payload</span><strong>Lightweight</strong></div>
+                <div class="metric"><span>Frontend stack</span><strong>Vanilla</strong></div>
+                <div class="metric"><span>Theme</span><strong>Dark + Light</strong></div>
+              </div>
+            </article>
+
+            <article class="hero-slide">
+              <div class="hero-copy">
+                <span class="hero-chip">Free code execution</span>
+                <h2>Run C, C++, and Python using your Express proxy to Piston.</h2>
+                <p>The browser sends code to your backend. Backend validates payload and calls Piston. Result returns to the output console in seconds.</p>
+                <div class="hero-actions">
+                  <a class="action-btn primary" href="/code-executor">Open Executor</a>
+                  <a class="action-btn" href="/about">How It Works</a>
+                </div>
+              </div>
+              <div class="hero-media">
+                <div class="metric"><span>API key needed</span><strong>No</strong></div>
+                <div class="metric"><span>Sandbox</span><strong>Containerized</strong></div>
+                <div class="metric"><span>Languages</span><strong>C, C++, Python</strong></div>
+              </div>
+            </article>
+
+            <article class="hero-slide">
+              <div class="hero-copy">
+                <span class="hero-chip">Secure auth</span>
+                <h2>JWT sessions with HttpOnly cookies and real logout endpoint.</h2>
+                <p>Login and refresh tokens stay in HttpOnly cookies. Sidebar logout clears cookies and revokes refresh token server-side.</p>
+                <div class="hero-actions">
+                  <a class="action-btn primary" href="/login">Login Now</a>
+                  <a class="action-btn" href="/subscription">Subscribe</a>
+                </div>
+              </div>
+              <div class="hero-media">
+                <div class="metric"><span>Access token</span><strong>Short-lived</strong></div>
+                <div class="metric"><span>Refresh token</span><strong>Rotating</strong></div>
+                <div class="metric"><span>Cookie type</span><strong>HttpOnly</strong></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="hero-controls">
+            <button class="hero-nav" type="button" data-hero-prev aria-label="Previous slide">&#8249;</button>
+            <div data-hero-dots></div>
+            <button class="hero-nav" type="button" data-hero-next aria-label="Next slide">&#8250;</button>
+          </div>
+        </section>
+
+        <section class="grid" aria-label="Core features">
+          <article class="card">
+            <h3>Notes Library</h3>
+            <p>Subject-wise material with semester grouping and PDF links.</p>
+            <div class="badge-row"><span class="badge">Searchable</span><span class="badge">Downloadable</span></div>
+          </article>
+          <article class="card">
+            <h3>Previous Year Papers</h3>
+            <p>Filter by year and subject, then view or download directly.</p>
+            <div class="badge-row"><span class="badge">Year filter</span><span class="badge">Quick view</span></div>
+          </article>
+          <article class="card">
+            <h3>Code Executor</h3>
+            <p>Write and execute C, C++, and Python with instant output.</p>
+            <div class="badge-row"><span class="badge">Piston API</span><span class="badge">Sandboxed</span></div>
+          </article>
+          <article class="card">
+            <h3>Cloud-hosted PDFs</h3>
+            <p>Cloudinary-backed links for stable file access and sharing.</p>
+            <div class="badge-row"><span class="badge">Cloudinary</span><span class="badge">MongoDB metadata</span></div>
+          </article>
+        </section>
+
+        <section class="form-shell" aria-label="Quick subscribe">
+          <h2 style="margin:0;">Stay updated</h2>
+          <p style="margin:0;color:var(--text-secondary);">Get alerts when fresh notes, PYQs, and solved examples are uploaded.</p>
+          <form data-subscription-form>
+            <input type="hidden" name="source" value="home-hero">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <button class="action-btn primary" type="submit">Subscribe</button>
+            <p class="form-message" data-form-message></p>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer" id="siteFooter"></footer>
+  </div>
+
+  <div class="search-modal" id="searchModal" hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <label class="sr-only" for="searchInput">Search pages</label>
+        <input id="searchInput" type="search" placeholder="Search pages, notes, or tools">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <div class="search-head"><button class="action-btn" type="button" data-close-search>Close</button></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

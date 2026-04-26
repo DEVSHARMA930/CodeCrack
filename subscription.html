@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeCrack | Subscription</title>
+  <link rel="icon" href="/images/cc-3.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="subscription">
+  <div class="app-shell">
+    <header class="site-header" id="siteHeader"></header>
+    <div class="layout">
+      <aside class="site-sidebar" id="siteSidebar"></aside>
+      <main class="page-content">
+        <h1 class="page-title">Subscription</h1>
+        <p class="page-subtitle">Subscribe with your email to receive updates when new notes, PYQs, and coding guides are published.</p>
+
+        <section class="form-shell">
+          <h2 style="margin:0;">Email updates</h2>
+          <form data-subscription-form>
+            <label for="subEmail">Email</label>
+            <input id="subEmail" type="email" name="email" required>
+            <input type="hidden" name="source" value="subscription-page">
+            <button class="action-btn primary" type="submit">Subscribe now</button>
+            <p class="form-message" data-form-message></p>
+          </form>
+        </section>
+      </main>
+    </div>
+    <footer class="site-footer" id="siteFooter"></footer>
+  </div>
+
+  <div class="search-modal" id="searchModal" hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <label class="sr-only" for="searchInput">Search pages</label>
+        <input id="searchInput" type="search" placeholder="Search pages, notes, or tools">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <div class="search-head"><button class="action-btn" type="button" data-close-search>Close</button></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
