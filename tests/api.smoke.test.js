@@ -212,7 +212,7 @@ test("execute endpoint validates and runs through mocked piston", async () => {
   const invalidResponse = await request("/api/execute", {
     method: "POST",
     body: {
-      language: "java",
+      language: "ruby",
       code: "System.out.println('x');"
     }
   });

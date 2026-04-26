@@ -719,7 +719,7 @@ function initializeCodeExecutor() {
   const codeInput = document.getElementById("codeInput");
   const stdinInput = document.getElementById("stdinInput");
   const output = document.getElementById("codeOutput");
-  const previewFrame = document.getElementById("previewFrame");
+  let previewFrame = document.getElementById("previewFrame");
   const runButton = document.getElementById("runCodeBtn");
   const clearButton = document.getElementById("clearCodeBtn");
   const resetButton = document.getElementById("resetCodeBtn");
@@ -728,6 +728,47 @@ function initializeCodeExecutor() {
   if (!languageSelect || !codeInput || !output || !runButton) {
     return;
   }
+
+  if (!previewFrame && output && output.parentNode) {
+    previewFrame = document.createElement("iframe");
+    previewFrame.id = "previewFrame";
+    previewFrame.style.width = "100%";
+    previewFrame.style.minHeight = "400px";
+    previewFrame.style.border = "1px solid #ccc";
+    previewFrame.style.borderRadius = "8px";
+    previewFrame.hidden = true;
+    output.parentNode.insertBefore(previewFrame, output.nextSibling);
+  }
+
+  let webInputsContainer = document.getElementById("webInputsContainer");
+  if (!webInputsContainer && codeInput.parentNode) {
+    webInputsContainer = document.createElement("div");
+    webInputsContainer.id = "webInputsContainer";
+    webInputsContainer.style.display = "none";
+    webInputsContainer.style.gap = "1rem";
+    webInputsContainer.style.flexDirection = "column";
+    webInputsContainer.style.width = "100%";
+
+    webInputsContainer.innerHTML = `
+      <div style="display: flex; flex-direction: column;">
+        <label style="font-weight: bold; margin-bottom: 0.25rem;">HTML</label>
+        <textarea id="htmlInput" style="width: 100%; min-height: 120px; font-family: monospace; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label style="font-weight: bold; margin-bottom: 0.25rem;">CSS</label>
+        <textarea id="cssInput" style="width: 100%; min-height: 120px; font-family: monospace; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label style="font-weight: bold; margin-bottom: 0.25rem;">JavaScript</label>
+        <textarea id="jsInput" style="width: 100%; min-height: 120px; font-family: monospace; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+      </div>
+    `;
+    codeInput.parentNode.insertBefore(webInputsContainer, codeInput.nextSibling);
+  }
+
+  const htmlInput = document.getElementById("htmlInput");
+  const cssInput = document.getElementById("cssInput");
+  const jsInput = document.getElementById("jsInput");
 
   const isBrowserPreviewMode = () => languageSelect.value === BROWSER_PREVIEW_LANGUAGE;
 
@@ -776,23 +817,33 @@ function initializeCodeExecutor() {
   };
 
   const setPreviewModeState = () => {
-    if (!stdinInput) {
-      return;
-    }
-
     if (isBrowserPreviewMode()) {
-      stdinInput.disabled = true;
-      stdinInput.placeholder = "Standard input is disabled in HTML+CSS+JavaScript mode.";
+      if (stdinInput) {
+        stdinInput.disabled = true;
+        stdinInput.placeholder = "Standard input is disabled in HTML+CSS+JavaScript mode.";
+      }
+      codeInput.style.display = "none";
+      if (webInputsContainer) webInputsContainer.style.display = "flex";
       return;
     }
 
-    stdinInput.disabled = false;
-    stdinInput.placeholder = "Optional input for your program";
+    if (stdinInput) {
+      stdinInput.disabled = false;
+      stdinInput.placeholder = "Optional input for your program";
+    }
+    codeInput.style.display = "";
+    if (webInputsContainer) webInputsContainer.style.display = "none";
   };
 
   const setStarterCode = () => {
     const language = languageSelect.value;
-    codeInput.value = STARTER_CODE[language] || STARTER_CODE.python;
+    if (isBrowserPreviewMode()) {
+      if (htmlInput) htmlInput.value = `<button id="tap">Click me</button>`;
+      if (cssInput) cssInput.value = `body {\n  margin: 0;\n  min-height: 100vh;\n  display: grid;\n  place-items: center;\n  background: linear-gradient(135deg, #f6f8ff, #fef6ec);\n  font-family: system-ui, sans-serif;\n}\n\nbutton {\n  border: 0;\n  padding: 0.8rem 1.1rem;\n  border-radius: 999px;\n  background: #1f7a5b;\n  color: #fff;\n  font-size: 1rem;\n  cursor: pointer;\n}`;
+      if (jsInput) jsInput.value = `document.getElementById('tap').addEventListener('click', () => {\n  alert('HTML + CSS + JavaScript is running in one preview.');\n});`;
+    } else {
+      codeInput.value = STARTER_CODE[language] || STARTER_CODE.python;
+    }
   };
 
   if (!codeInput.value.trim()) {
@@ -821,13 +872,24 @@ function initializeCodeExecutor() {
 
   if (fontSizeInput) {
     fontSizeInput.addEventListener("input", (event) => {
-      codeInput.style.fontSize = `${event.target.value}px`;
+      const size = `${event.target.value}px`;
+      codeInput.style.fontSize = size;
+      if (htmlInput) htmlInput.style.fontSize = size;
+      if (cssInput) cssInput.style.fontSize = size;
+      if (jsInput) jsInput.style.fontSize = size;
     });
   }
 
   if (clearButton) {
     clearButton.addEventListener("click", () => {
-      codeInput.value = "";
+      if (isBrowserPreviewMode()) {
+        if (htmlInput) htmlInput.value = "";
+        if (cssInput) cssInput.value = "";
+        if (jsInput) jsInput.value = "";
+      } else {
+        codeInput.value = "";
+      }
+
       if (stdinInput) {
         stdinInput.value = "";
       }
@@ -857,7 +919,23 @@ function initializeCodeExecutor() {
   runButton.addEventListener("click", async () => {
     if (isBrowserPreviewMode()) {
       runButton.disabled = true;
-      showPreview(codeInput.value || previewHint);
+      const combinedSource = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+${cssInput ? cssInput.value : ""}
+  </style>
+</head>
+<body>
+${htmlInput ? htmlInput.value : ""}
+  <script>
+${jsInput ? jsInput.value : ""}
+  </script>
+</body>
+</html>`;
+      showPreview(combinedSource);
       runButton.disabled = false;
       return;
     }
