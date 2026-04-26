@@ -1,7 +1,7 @@
 const PAGE_INDEX = [
   { title: "Home", href: "/", keywords: "hero roadmap banner" },
   { title: "Notes", href: "/notes", keywords: "semester subjects pdf" },
-  { title: "Code Executor", href: "/code-executor", keywords: "c cpp python run" },
+  { title: "Code Executor", href: "/code-executor", keywords: "c cpp python java html css javascript run" },
   { title: "Previous Year Paper", href: "/pyq", keywords: "past papers year" },
   { title: "About", href: "/about", keywords: "mission team" },
   { title: "Subscription", href: "/subscription", keywords: "newsletter updates" },
@@ -32,8 +32,12 @@ const FOOTER_ITEMS = [
 const STARTER_CODE = {
   c: "#include <stdio.h>\n\nint main() {\n  printf(\"Hello from C!\\n\");\n  return 0;\n}\n",
   cpp: "#include <iostream>\nusing namespace std;\n\nint main() {\n  cout << \"Hello from C++!\\n\";\n  return 0;\n}\n",
-  python: "print('Hello from Python!')\n"
+  python: "print('Hello from Python!')\n",
+  java: "class prog {\n  public static void main(String[] args) {\n    System.out.println(\"Hello from Java!\");\n  }\n}\n",
+  html_css_javascript: "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Live Preview</title>\n  <style>\n    body {\n      margin: 0;\n      min-height: 100vh;\n      display: grid;\n      place-items: center;\n      background: linear-gradient(135deg, #f6f8ff, #fef6ec);\n      font-family: system-ui, sans-serif;\n    }\n\n    button {\n      border: 0;\n      padding: 0.8rem 1.1rem;\n      border-radius: 999px;\n      background: #1f7a5b;\n      color: #fff;\n      font-size: 1rem;\n      cursor: pointer;\n    }\n  </style>\n</head>\n<body>\n  <button id=\"tap\">Click me</button>\n\n  <script>\n    document.getElementById('tap').addEventListener('click', () => {\n      alert('HTML + CSS + JavaScript is running in one preview.');\n    });\n  </script>\n</body>\n</html>\n"
 };
+
+const BROWSER_PREVIEW_LANGUAGE = "html_css_javascript";
 
 document.addEventListener("DOMContentLoaded", () => {
   const currentPage = document.body.dataset.page || "home";
@@ -715,6 +719,7 @@ function initializeCodeExecutor() {
   const codeInput = document.getElementById("codeInput");
   const stdinInput = document.getElementById("stdinInput");
   const output = document.getElementById("codeOutput");
+  const previewFrame = document.getElementById("previewFrame");
   const runButton = document.getElementById("runCodeBtn");
   const clearButton = document.getElementById("clearCodeBtn");
   const resetButton = document.getElementById("resetCodeBtn");
@@ -723,6 +728,67 @@ function initializeCodeExecutor() {
   if (!languageSelect || !codeInput || !output || !runButton) {
     return;
   }
+
+  const isBrowserPreviewMode = () => languageSelect.value === BROWSER_PREVIEW_LANGUAGE;
+
+  const previewHint = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: system-ui, sans-serif;
+      background: #f4f4f4;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <p>Press Run to render your HTML + CSS + JavaScript preview.</p>
+</body>
+</html>`;
+
+  const hidePreview = () => {
+    if (!previewFrame) {
+      return;
+    }
+
+    previewFrame.hidden = true;
+    previewFrame.srcdoc = "";
+    output.hidden = false;
+  };
+
+  const showPreview = (source) => {
+    if (!previewFrame) {
+      output.hidden = false;
+      output.textContent = "Preview frame unavailable on this page.";
+      return;
+    }
+
+    previewFrame.srcdoc = source;
+    previewFrame.hidden = false;
+    output.hidden = true;
+  };
+
+  const setPreviewModeState = () => {
+    if (!stdinInput) {
+      return;
+    }
+
+    if (isBrowserPreviewMode()) {
+      stdinInput.disabled = true;
+      stdinInput.placeholder = "Standard input is disabled in HTML+CSS+JavaScript mode.";
+      return;
+    }
+
+    stdinInput.disabled = false;
+    stdinInput.placeholder = "Optional input for your program";
+  };
 
   const setStarterCode = () => {
     const language = languageSelect.value;
@@ -733,7 +799,25 @@ function initializeCodeExecutor() {
     setStarterCode();
   }
 
-  languageSelect.addEventListener("change", setStarterCode);
+  languageSelect.addEventListener("change", () => {
+    setStarterCode();
+    setPreviewModeState();
+
+    if (isBrowserPreviewMode()) {
+      showPreview(previewHint);
+      return;
+    }
+
+    hidePreview();
+  });
+
+  setPreviewModeState();
+
+  if (isBrowserPreviewMode()) {
+    showPreview(previewHint);
+  } else {
+    hidePreview();
+  }
 
   if (fontSizeInput) {
     fontSizeInput.addEventListener("input", (event) => {
@@ -747,6 +831,12 @@ function initializeCodeExecutor() {
       if (stdinInput) {
         stdinInput.value = "";
       }
+
+      if (isBrowserPreviewMode()) {
+        showPreview(previewHint);
+        return;
+      }
+
       output.textContent = "Console cleared.";
     });
   }
@@ -754,11 +844,25 @@ function initializeCodeExecutor() {
   if (resetButton) {
     resetButton.addEventListener("click", () => {
       setStarterCode();
+
+      if (isBrowserPreviewMode()) {
+        showPreview(previewHint);
+        return;
+      }
+
       output.textContent = "Starter template restored.";
     });
   }
 
   runButton.addEventListener("click", async () => {
+    if (isBrowserPreviewMode()) {
+      runButton.disabled = true;
+      showPreview(codeInput.value || previewHint);
+      runButton.disabled = false;
+      return;
+    }
+
+    hidePreview();
     output.textContent = "Running code...";
     runButton.disabled = true;
 
@@ -778,7 +882,7 @@ function initializeCodeExecutor() {
       const data = await response.json();
 
       if (!response.ok) {
-        output.textContent = data.error || "Execution failed.";
+        output.textContent = data.output || data.error || "Execution failed.";
         return;
       }
 

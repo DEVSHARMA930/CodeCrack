@@ -42,7 +42,6 @@ const env = {
   accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN || "15m",
   refreshTokenExpiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || "7d",
   cookieDomain: process.env.COOKIE_DOMAIN || "",
-  pistonUrl: process.env.PISTON_URL || "https://emkc.org/api/v2/piston/execute",
   cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || "",
   cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || "",
   cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET || "",

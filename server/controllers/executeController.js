@@ -1,83 +1,64 @@
-const { executeWithPiston } = require("../services/pistonService");
+// server/controllers/executeController.js
+const { executeWithWandbox } = require("../services/wandboxService");
 
-async function executeCode(req, res, next) {
+const executeCode = async (req, res) => {
   try {
-    const language = String(req.body.language || "").trim();
-    const sourceCode = String(req.body.code || "");
-    const stdin = String(req.body.stdin || "");
+    const { language, code, stdin } = req.body || {};
+    const normalizedLanguage = String(language || "python").toLowerCase().trim();
 
-    if (!language || !sourceCode) {
-      return res.status(400).json({
-        error: "Language and code are required"
-      });
+    if (!String(code || "").trim()) {
+      return res.status(400).json({ success: false, output: "Code is required" });
     }
 
-    if (sourceCode.length > 25000) {
-      return res.status(400).json({
-        error: "Code is too long. Keep it under 25,000 characters."
-      });
-    }
-
-    if (stdin.length > 5000) {
-      return res.status(400).json({
-        error: "Input is too long. Keep it under 5,000 characters."
-      });
-    }
-
-    const result = await executeWithPiston({
-      language,
-      sourceCode,
-      stdin
+    const result = await executeWithWandbox({
+      language: normalizedLanguage,
+      code,
+      stdin: stdin || ""
     });
 
-    const compile = result.compile || null;
-    const run = result.run || null;
+    const isSuccess = String(result.status) === "0";
 
-    // If there's no run result at all, something went wrong on the executor side
-    if (!run) {
-      return res.status(502).json({
-        error: "Execution service did not return a result. Please try again."
-      });
-    }
+    const output = [result.compiler_message, result.program_message]
+      .filter(Boolean)
+      .join("\n")
+      .trim() || "No output returned.";
 
-    const compileSucceeded = !compile || (compile.code ?? 0) === 0;
-    const runSucceeded = (run.code ?? 0) === 0 && !run.signal;
-
-    // Build a single output string the UI can display directly
-    const parts = [];
-    if (compile && compile.output) {
-      parts.push(compile.output.trim());
-    }
-    if (run.output) {
-      parts.push(run.output.trim());
-    }
-    const output = parts.join("\n").trim();
+    const runOutput = result.program_message || result.program_output || output;
 
     return res.json({
-      success: compileSucceeded && runSucceeded,
-      language,
+      success: isSuccess,
       output,
-      compile: compile
-        ? {
-            code: compile.code ?? null,
-            stdout: compile.stdout || "",
-            stderr: compile.stderr || "",
-            output: compile.output || ""
-          }
-        : null,
+      compiler: result.compiler,
       run: {
-        code: run.code ?? null,
-        stdout: run.stdout || "",
-        stderr: run.stderr || "",
-        output: run.output || "",
-        signal: run.signal || null
+        code: isSuccess ? 0 : 1,
+        output: runOutput,
+        stdout: result.program_output || "",
+        stderr: result.program_error || ""
+      },
+      compile: {
+        output: result.compiler_output || result.compiler_message || "",
+        stderr: result.compiler_error || ""
       }
     });
   } catch (error) {
-    return next(error);
-  }
-}
+    const statusCode = error?.statusCode || 500;
+    const responseMessage = statusCode === 400
+      ? error.message
+      : `Execution Engine Error: ${error.message}`;
 
-module.exports = {
-  executeCode
+    console.error("CRITICAL ERROR:", error.message);
+
+    return res.status(statusCode).json({
+      success: false,
+      output: responseMessage,
+      run: {
+        code: 1,
+        output: responseMessage,
+        stdout: "",
+        stderr: responseMessage
+      }
+    });
+  }
 };
+
+module.exports = { executeCode };

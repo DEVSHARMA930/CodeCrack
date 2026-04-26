@@ -4,7 +4,7 @@ const PyqPaper = require("../models/PyqPaper");
 const PAGE_INDEX = [
   { title: "Home", href: "/", keywords: "hero roadmap banner" },
   { title: "Notes", href: "/notes", keywords: "semester subjects pdf" },
-  { title: "Code Executor", href: "/code-executor", keywords: "c cpp python run" },
+  { title: "Code Executor", href: "/code-executor", keywords: "c cpp python java html css javascript run" },
   { title: "Previous Year Paper", href: "/pyq", keywords: "past papers year" },
   { title: "About", href: "/about", keywords: "mission team" },
   { title: "Subscription", href: "/subscription", keywords: "newsletter updates" },

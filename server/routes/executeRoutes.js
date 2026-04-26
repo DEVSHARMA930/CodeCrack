@@ -1,9 +1,9 @@
-const express = require("express");
-const { executeCode } = require("../controllers/executeController");
-const { executeLimiter } = require("../middleware/rateLimiters");
-
+// server/routes/executeRoutes.js
+const express = require('express');
 const router = express.Router();
+const { executeCode } = require('../controllers/executeController');
 
-router.post("/", executeLimiter, executeCode);
+// Ensure executeCode is imported as a function
+router.post('/', executeCode);
 
 module.exports = router;
